@@ -71,16 +71,6 @@ button {
 
 }
 
-.book-container {
-    /* display: flex; */
-    /* flex-direction: row; */
-    /* justify-content: center; */
-    /* margin-top: 10px; */
-    /* /~ flex-grow: 0.8; ~/ */
-    /* flex-wrap: wrap; */
-
-}
-
 table {
     border: 2.5px solid black;
 }
@@ -173,7 +163,6 @@ td {
 
 
 img {
-    box-shadow: 0px 0px 15px rgb(240, 184, 184), 0px 0px 35px rgb(240, 184, 184), 0px 0px 50px rgb(240, 184, 184);
     border: 1px solid white;
     width: 100%;
 }
@@ -189,6 +178,21 @@ img {
     justify-content: space-between;
 }
 .sortBy {
-    width: 80px;
+    width: 100px;
     height: 40px;
+}
+.book-con {
+    display: flex;
+    flex-wrap: wrap;
+}
+.card-preview {
+    background-color: white;
+    color: rgb(227, 156, 15);
+    background-color: bisque;
+    width: 15%;
+    margin:0.5rem;
+    border: 3px solid lightgray;
+    border-radius: .2em;
+    text-align: center;
+    padding: 5px;
 }

@@ -2,7 +2,7 @@
 var gBooks = []
 const gType = ['teror', 'comedy', 'science', 'action', 'children']
 var gFilterBy = { type: '', maxPrice: 0 }
-const PAGE_SIZE = 5
+const PAGE_SIZE = 6
 var gPageIdx = 0
 
 
@@ -111,7 +111,8 @@ function createBook(type, imgLink, name) {
         type,
         maxPrice: getRandomInt(50, 500),
         imgLink,
-        rate: 0
+        rate: 0,
+        name
     }
 }
 

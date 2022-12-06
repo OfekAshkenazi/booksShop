@@ -1,29 +1,86 @@
 'use strict'
 ///// section done!
+var iscards = false
 function onInit() {
     renderTypeForBooks()
     renderFilterByQueryStringParams()
     rendingBooksMap()
 }
-
+function onCardInit() {
+    iscards = !iscards
+    console.log(iscards)
+    // document.querySelector('.table-con').display = 'block'
+    // document.querySelector('.card-con').display = 'none'
+    renderTypeForBooks()
+    renderFilterByQueryStringParams()
+    rendingBooksMap()
+}
 function rendingBooksMap() {
     var books = getFilterBooks()
-    var strHtmls = books.map(book => {
-        return `<tr>
-        <td>${book.id}</td>
-        <td>${book.maxPrice}$</td>
-        <td>${book.type}</td>
-        <td><button onclick="onRead('${book.id}')" data-trans="read" class="read">Read</button></td>
-        <td><button onclick="onUpdatePrice('${book.id}')" data-trans="update" class="update">Update</button></td>
-        <td><button onclick="onRemoveBook('${book.id}')" data-trans="delete" class="delete">Delete</button></td>
-        <td><button onclick="onRateUp('${book.id}')" class="update">+</button></td>
-        <td>${book.rate}</td>
-        <td><button onclick="onRateDown('${book.id}')" class="update">-</button></td>
-        </tr>`
-    })
-    document.querySelector('tbody').innerHTML = strHtmls.join('')
+    if (!iscards) {
+        var strHtml = `<table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th data-trans="id">
+                        Id
+                    </th>
+                    <th data-trans="price">
+                        Price
+                    </th>
+                    <th data-trans="type">
+                        Type
+                    </th>
+                    <th data-trans="actions" colspan="3">
+                        Actions
+                    </th>
+                    <th data-trans="rate" colspan="3">
+                        Rate
+                    </th>
+                </tr>
+            </thead>
+            <tbody>`
+        var strHtmls = books.map(book => {
+            return `<tr>
+                    <td>${book.id}</td>
+                    <td>${book.maxPrice}$</td>
+                    <td>${book.type}</td>
+                    <td><button onclick="onRead('${book.id}')" data-trans="read" class="read">Read</button></td>
+                    <td><button onclick="onUpdatePrice('${book.id}')" data-trans="update" class="update">Update</button></td>
+                    <td><button onclick="onRemoveBook('${book.id}')" data-trans="delete" class="delete">Delete</button></td>
+                    <td><button onclick="onRateUp('${book.id}')" class="update">+</button></td>
+                    <td>${book.rate}</td>
+                    <td><button onclick="onRateDown('${book.id}')" class="update">-</button></td>
+                </tr>`
+        })
+        strHtml += strHtmls.join('')
+        strHtml += `</tbody></table>`
+        document.querySelector('.book-con').innerHTML = strHtml
+
+    } else cardsRend()
+
+
 }
 /// working with only type
+function cardsRend() {
+    var books = getFilterBooks()
+    var strHtmls = books.map(book => {
+        return `<article class="card card-preview">
+        <button class="btn-remove" data-trans="delete" onclick="onRemoveBook('${book.id}')">Delete</button>
+        <h5>${book.type}</h5>
+        <h6>Up to <span>${book.maxPrice}</span> $</h6>
+        <button data-trans="read" onclick="onRead('${book.id}')">Read</button>
+        <button data-trans="update" onclick="onUpdatePrice('${book.id}')">Update</button>
+        <img onerror="this.src='image/0.jpg'" src="image/book.jpg" alt="book type: ${book.type}">
+        </article> `
+    })
+
+    document.querySelector('.book-con').innerHTML = strHtmls.join('')
+
+}
+
+
+
+
 
 function onNextPage() {
     nextPage()
@@ -34,8 +91,8 @@ function onNextPage() {
 function renderFilterByQueryStringParams() {
     const queryStringParams = new URLSearchParams(window.location.search)
     const filterBy = {
-        type : queryStringParams.get('type') || '',
-        maxPrice : queryStringParams.get('maxPrice') || 0
+        type: queryStringParams.get('type') || '',
+        maxPrice: queryStringParams.get('maxPrice') || 0
     }
 
     if (!filterBy.type && !filterBy.maxPrice) return
@@ -70,8 +127,8 @@ function renderTypeForBooks() {
 function rendingDataForModel(bookId) {
     var book = getBookById(bookId)
     var strHtml = `<div class="model-btn"> <button onclick="onRateUp('${book.id}')">+</button>
-    ${book.rate}
-    <button onclick="onRateDown('${book.id}')">-</button></div>`
+                    ${book.rate}
+                    <button onclick="onRateDown('${book.id}')">-</button></div>`
 
     document.querySelector('.rateBtn').innerHTML = strHtml
     var elModel = document.querySelector('.model')
