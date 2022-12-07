@@ -5,21 +5,16 @@ var gFilterBy = { type: '', maxPrice: 0 }
 const PAGE_SIZE = 6
 var gPageIdx = 0
 
-
-
 _createBooks()
 
-/// filter work only with type
 function nextPage() {
     gPageIdx++
     if (gPageIdx * PAGE_SIZE >= gBooks.length) {
         gPageIdx = 0
     }
     document.querySelector('.page-number').innerText = `Page Number: ${gPageIdx + 1}`
-    document.querySelector('body').classList.remove('.ltr')
-    // document.querySelector('body').classList.add('.rtl')
+  
 }
-
 
 function getFilterBooks() {
     var books = getBooks()
@@ -133,6 +128,14 @@ function getBookById(bookId) {
     return book
 }
 
+function makeId(length = 5) {
+    var txt = ''
+    var possible = 'abcdefghijklmnopqrstuvwxyz'
+    for (var i = 0; i < length; i++) {
+        txt += possible.charAt(Math.floor(Math.random() * possible.length))
+    }
+    return txt
+}
 
 function makeLorem(wordCount = 30) {
     const words = ['The sky', 'above', 'the port', 'was', 'the color of television', 'tuned', 'to', 'a dead channel', '.', 'All', 'this happened', 'more or less', '.', 'I', 'had', 'the story', 'bit by bit', 'from various people', 'and', 'as generally', 'happens', 'in such cases', 'each time', 'it', 'was', 'a different story', '.', 'It', 'was', 'a pleasure', 'to', 'burn']

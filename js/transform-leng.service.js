@@ -92,10 +92,13 @@ var gTrans = {
         en: 'Select Type',
         he: 'תבחר סוג'
     },
+    'switch-to-card': {
+        en: 'Switch To Card',
+        he: 'מעבר לתצוגת קלפים'
+    },
 }
 
 var gCurrLang = 'en'
-
 
 function getTrans(transKey) {
     // done: if key is unknown return 'UNKNOWN'
@@ -110,7 +113,6 @@ function getTrans(transKey) {
 
     return translation
 }
-
 
 function doTrans() {
     // done: 

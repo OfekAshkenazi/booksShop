@@ -1,20 +1,13 @@
 'use strict'
 ///// section done!
 var iscards = false
+
 function onInit() {
     renderTypeForBooks()
     renderFilterByQueryStringParams()
     rendingBooksMap()
 }
-function onCardInit() {
-    iscards = !iscards
-    console.log(iscards)
-    // document.querySelector('.table-con').display = 'block'
-    // document.querySelector('.card-con').display = 'none'
-    renderTypeForBooks()
-    renderFilterByQueryStringParams()
-    rendingBooksMap()
-}
+
 function rendingBooksMap() {
     var books = getFilterBooks()
     if (!iscards) {
@@ -60,7 +53,7 @@ function rendingBooksMap() {
 
 
 }
-/// working with only type
+
 function cardsRend() {
     var books = getFilterBooks()
     var strHtmls = books.map(book => {
@@ -76,44 +69,6 @@ function cardsRend() {
 
     document.querySelector('.book-con').innerHTML = strHtmls.join('')
 
-}
-
-
-
-
-
-function onNextPage() {
-    nextPage()
-    rendingBooksMap()
-
-}
-
-function renderFilterByQueryStringParams() {
-    const queryStringParams = new URLSearchParams(window.location.search)
-    const filterBy = {
-        type: queryStringParams.get('type') || '',
-        maxPrice: queryStringParams.get('maxPrice') || 0
-    }
-
-    if (!filterBy.type && !filterBy.maxPrice) return
-
-    document.querySelector('.filter-book-select').value = filterBy.type
-    document.querySelector('.filter-book-range').value = filterBy.maxPrice
-    setBookFilter(filterBy)
-    rendingBooksMap()
-}
-
-function onSetFilterBy(filterBy) {
-    var elType = document.querySelector('.filter-book-select')
-    var elRange = document.querySelector('.filter-book-range')
-    console.log(elType.value)
-    // console.log(filterBy)
-    setBookFilter(filterBy)
-    rendingBooksMap()
-    // console.log(filterBy)
-    const queryStringParams = `?type=${elType.value}&maxPrice=${elRange.value}`
-    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
-    window.history.pushState({ path: newUrl }, '', newUrl)
 }
 
 function renderTypeForBooks() {
@@ -136,6 +91,49 @@ function rendingDataForModel(bookId) {
     elModel.querySelector('h1').innerText = `the book: ${bookId}`
     elModel.querySelector('.img').innerHTML = `${book.imgLink}`
 
+}
+
+function renderFilterByQueryStringParams() {
+    const queryStringParams = new URLSearchParams(window.location.search)
+    const filterBy = {
+        type: queryStringParams.get('type') || '',
+        maxPrice: queryStringParams.get('maxPrice') || 0
+    }
+
+    if (!filterBy.type && !filterBy.maxPrice) return
+
+    document.querySelector('.filter-book-select').value = filterBy.type
+    document.querySelector('.filter-book-range').value = filterBy.maxPrice
+    setBookFilter(filterBy)
+    rendingBooksMap()
+}
+
+function onNextPage() {
+    nextPage()
+    rendingBooksMap()
+    doTrans()
+}
+
+function onCardInit() {
+    iscards = !iscards
+    renderTypeForBooks()
+    renderFilterByQueryStringParams()
+    rendingBooksMap()
+    doTrans()
+
+}
+
+function onSetFilterBy(filterBy) {
+    var elType = document.querySelector('.filter-book-select')
+    var elRange = document.querySelector('.filter-book-range')
+    console.log(elType.value)
+    // console.log(filterBy)
+    filterBy = setBookFilter(filterBy)
+    rendingBooksMap()
+    // console.log(filterBy)
+    const queryStringParams = `?type=${elType.value}&maxPrice=${elRange.value}`
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + queryStringParams
+    window.history.pushState({ path: newUrl }, '', newUrl)
 }
 
 function onCloseModel() {
@@ -211,6 +209,6 @@ function onSetLang(lang) {
     // done: if lang is hebrew add RTL class to document.body
     if (lang === 'he') document.body.classList.add('rtl')
     else document.body.classList.remove('rtl')
-
     doTrans()
+    
 }
